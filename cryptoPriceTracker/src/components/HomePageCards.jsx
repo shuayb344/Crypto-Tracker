@@ -1,6 +1,7 @@
 import { fetchCryptoData } from "../api/fetchData";
 import { useState, useEffect } from "react";
 import { formatMoney } from "../utils/FormatMoney";
+import { Link } from "react-router-dom";
 
 export function HomePageCards() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +30,7 @@ export function HomePageCards() {
   return (
     <div className="flex flex-col sm:flex-row gap-3">
       {data.slice(0, 4).map((crypto) => (
-        <div className="bg-neutral-950 mx-auto p-6 hover:bg-neutral-900 rounded-lg shadow-md flex flex-row sm:flex-col justify-between items-center w-full gap-4 mb-3 ">
+        <Link to={`/coins/${crypto.id}`}><div className="bg-neutral-950 mx-auto p-6 hover:bg-neutral-950 rounded-lg shadow-md flex flex-row sm:flex-col justify-between items-center w-full gap-4 mb-3 ">
           <div className="flex sm:flex-col flex-row items-center gap-2">
           <span className="">#{crypto.market_cap_rank}</span>
           <img className="w-12  h-12 sm:w-24 sm:h-24" src={crypto.image} alt={crypto.name} />
@@ -55,7 +56,7 @@ export function HomePageCards() {
               {crypto.price_change_percentage_24h.toFixed(2)}%
             </p>
           </div>
-        </div>
+        </div></Link>
       ))}
     </div>
   );

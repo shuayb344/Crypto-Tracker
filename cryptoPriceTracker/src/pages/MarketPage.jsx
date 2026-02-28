@@ -29,7 +29,7 @@ export function MarketPage() {
 
   useEffect(() => {
     sortData(cryptoData, sortBy);
-  }, [sortBy, cryptoData, searchTerm]);
+  }, [sortBy,cryptoData, searchTerm]);
    
   const sortData = (data, sortBy) => {
     const sortedData = data.filter((crypto) =>

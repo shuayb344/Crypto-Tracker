@@ -9,3 +9,11 @@ export async function fetchCryptoData() {
   }
 }
 ;
+export async function fetchCryptoDetails(id) {
+  try {
+    const response = await axios.get(`${baseURL}/coins/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching crypto details:', error);
+  }
+}
