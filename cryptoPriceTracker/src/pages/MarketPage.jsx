@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchCryptoData } from "../api/fetchData";
 import { CryptoCard } from "../components/CryptoCard"; 
+import { Pagination } from "../components/Pagination";
 import { Link } from "react-router-dom";
 export function MarketPage() {
   const[cryptoData,setCryptoData] = useState([]);
@@ -95,27 +96,11 @@ export function MarketPage() {
             {currentItems.map((crypto) => (
               <CryptoCard key={crypto.id} crypto={crypto} />
             ))}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-4">
-                <button
-                  className="px-3 py-1 bg-neutral-800 cursor-pointer rounded disabled:opacity-50"
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((p) => p - 1)}
-                >
-                  Previous
-                </button>
-                <span>
-                  Page {currentPage} of {totalPages}
-                </span>
-                <button
-                  className="px-3 py-1 bg-neutral-800 cursor-pointer rounded disabled:opacity-50"
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => p + 1)}
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </>
         );
       })()}
