@@ -1,6 +1,8 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchCryptoDetails } from "../api/fetchData";
+import { formatMoney } from "../utils/FormatMoney";
+import { formatMarketCap } from "../utils/FormatMoney";
 export function CryptoDetailsPage() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -34,10 +36,34 @@ export function CryptoDetailsPage() {
             <p>Loading...</p>
           </div>
         ) : data && data.id ? (
-          <div className="p-6 bg-neutral-900 rounded-lg mt-4">
-            <h2 className="text-2xl font-bold mb-2">{data.name} ({data.symbol?.toUpperCase()})</h2>
-            <p>Rank: {data.market_cap_rank}</p>
-            <p>Current Price: ${data.market_data?.current_price?.usd}</p>
+          <div className="p-6 bg-neutral-950 rounded-lg mt-4">
+            <div className="flex flex-col sm:flex-row gap-6 items-center">
+                <img src={data.image?.large } alt={data.name} />
+                <div>
+                  <p className="text-lg mb-2">Rank: #{data.market_cap_rank}</p>
+                  <h2 className="text-3xl font-bold mb-2">{data.name} ({data.symbol?.toUpperCase()})</h2>
+                  <p className="text-3xl mt-3"> {formatMoney(data.market_data?.current_price?.usd)}</p>
+                   <p
+              className={`text-lg p-2 ${
+                data.market_data?.price_change_percentage_24h >= 0
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {data.market_data?.price_change_percentage_24h?.toFixed(2)}%
+            </p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold mb-2">Market Cap </h3>
+                  <p>{formatMarketCap(data.market_data?.market_cap?.usd)}</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold mb-2">24h Volume </h3>
+                  <p>{formatMarketCap(data.market_data?.total_volume?.usd)}</p>
+                </div>
+                
+            </div>
+            
             
           </div>
         ) : (<>
