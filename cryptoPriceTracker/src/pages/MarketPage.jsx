@@ -7,7 +7,10 @@ export function MarketPage() {
   const [filterdData,setFilterdData] = useState([]);
   const [loading,setLoading] = useState(true);
   const [sortBy,setSortBy] = useState("market_cap_rank");
-  const [searchTerm,setSearchTerm] = useState(""); 
+  const [searchTerm,setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20; 
+
 
    const fetchData = async () => {
     try {
@@ -48,6 +51,7 @@ export function MarketPage() {
       }
     });
     setFilterdData(sortedData);
+    setCurrentPage(1);
   };
 
   return (
@@ -56,7 +60,7 @@ export function MarketPage() {
         <header className="flex flex-col sm:flex-row mx-auto items-center justify-between  p-4">
          <Link to="/"><span className='text-3xl font-bold text-yellow-500 font-["Dancing_Script"] '>CryptoTracker</span></Link>
         <div className="flex gap-2 items-center justify-center sm:w-1/2 border border-stone-700 bg-neutral-950 rounded-xl mt-3 align-middle">
-          <input className="sm:p-3 p-2 rounded-xl  bg-neutral-950 w-[90%] focus:outline-0 text-white"  type="text" placeholder="Search Crypto By Name..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+          <input className="sm:p-3 p-2 rounded-xl   bg-neutral-950 w-[90%] focus:outline-0 text-white"  type="text" placeholder="Search Crypto..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
           <img src="./src/assets/search.png" alt="Search Icon" className="w-5 h-5 mr-2" />
          
         </div>
@@ -81,10 +85,40 @@ export function MarketPage() {
       <p>Loading Crypto ... </p>
     </div>):(<div>
       
-
-      {filterdData.map((crypto) => (
-        <CryptoCard key={crypto.id} crypto={crypto} />
-      ))}
+      {(() => {
+        const totalPages = Math.ceil(filterdData.length / itemsPerPage) || 1;
+        const indexOfLastItem = currentPage * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const currentItems = filterdData.slice(indexOfFirstItem, indexOfLastItem);
+        return (
+          <>
+            {currentItems.map((crypto) => (
+              <CryptoCard key={crypto.id} crypto={crypto} />
+            ))}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-4">
+                <button
+                  className="px-3 py-1 bg-neutral-800 cursor-pointer rounded disabled:opacity-50"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                >
+                  Previous
+                </button>
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  className="px-3 py-1 bg-neutral-800 cursor-pointer rounded disabled:opacity-50"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
+        );
+      })()}
       </div>)}
     </div>    
   );
