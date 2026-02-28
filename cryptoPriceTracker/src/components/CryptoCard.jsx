@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import { formatMoney } from "../utils/FormatMoney";
 export function CryptoCard({ crypto }) {
-  return (
-    <div className="bg-neutral-950 mx-auto p-4 rounded-lg shadow-md flex items-center gap-4 mb-3 sm:w-[70%]">
-      <span className="">{crypto.market_cap_rank}</span>
+  return (<Link  to={`/coins/${crypto.id}`}>
+    <div className="bg-neutral-950 mx-auto p-4 hover:bg-neutral-900 rounded-lg shadow-md flex items-center gap-4 mb-3 sm:w-[70%]">
+      <span className="">#{crypto.market_cap_rank}</span>
       <img src={crypto.image} alt={crypto.name} className="w-12 h-12" />
       <div>
         <h2 className="text-lg font-bold">{crypto.name}</h2>
@@ -19,5 +20,8 @@ export function CryptoCard({ crypto }) {
         </p>
       </div>
     </div>
+    
+  </Link>
+    
   );
 }

@@ -6,15 +6,15 @@ export function HomePage() {
         <header className="flex items-center flex-wrap justify-between w-[80%] p-4 ">
         <span className='text-3xl font-bold text-yellow-500 font-["Dancing_Script"] '>CryptoTracker</span>
         <div className='text-xl flex gap-3 p-4 '>
-          <Link  to="/market">Market</Link>
-          <Link to="/news">News</Link>
+          <Link  to="/market"><span className='text-yellow-500 hover:text-yellow-300'>Market</span></Link>
+          <Link to="/news"><span className='text-yellow-500 hover:text-yellow-300'>News</span></Link>
         </div>
-        <button className='bg-slate-200 text-black px-4 py-2 rounded-md font-bold'>Get Started</button>
+        
       </header>
       <div className='flex flex-col items-center justify-center   gap-4 '>
         <h1 className='text-5xl font-bold text-center mt-20'>Track Your Favorite Cryptocurrencies in Real-Time</h1>
         <p className='text-xl text-center mt-4'>Stay updated with the latest market trends and news in the crypto world.</p>
-        <Link to="/market"><button className='bg-yellow-500 text-black px-6 py-3 rounded-md font-bold mt-6 cursor-pointer'>Explore Now</button></Link>
+        <Link to="/market"><button className='bg-yellow-500 text-black px-6 py-3 rounded-md font-bold mt-6 cursor-pointer hover:scale-105 '>Explore Now</button></Link>
         
        
       </div>
