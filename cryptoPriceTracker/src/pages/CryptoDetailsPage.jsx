@@ -1,12 +1,15 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchCryptoDetails } from "../api/fetchData";
+import { fetchCryptoPriceHistory } from "../api/fetchData";
 import { formatMoney } from "../utils/FormatMoney";
 import { formatMarketCap } from "../utils/FormatMoney";
+import {CartesianGrid, LineChart, ResponsiveContainer,XAxis,YAxis,Line, Tooltip} from "recharts"
 export function CryptoDetailsPage() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [chartData, setChartData] = useState([]);
   const navigate = useNavigate();
   
     useEffect(() => {
@@ -20,6 +23,33 @@ export function CryptoDetailsPage() {
           setIsLoading(false);
         });
     }, [id]);
+    useEffect(() => {
+      fetchCryptoPriceHistory(id)
+        .then((res) => {
+          if (res && Array.isArray(res.prices)) {
+            const formattedData = res.prices.map(([timestamp, price]) => ({
+              time: new Date(timestamp).toLocaleDateString(
+                "en-US",{
+                  month : "short",
+                  day : "numeric"
+                }
+              ),
+              price: Number(price.toFixed(2)),
+            }));
+            setChartData(formattedData);
+          } else {
+            console.error("Unexpected price history format", res);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching price history:", err);
+        });
+    }, [id]);
+
+    useEffect(() => {
+      console.log("chartData updated:", chartData);
+    }, [chartData]);
+
   return (
     <div className=" bg-black min-h-screen text-white overflow-auto">
       <div className="sm:w-[80%] mx-auto">
@@ -70,6 +100,18 @@ export function CryptoDetailsPage() {
             
           </div>
           <div className="p-6 bg-neutral-950 rounded-lg mt-4">
+              <h3 className="text-2xl font-bold mb-4">Price History (7 days)</h3>
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart  data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                    <XAxis dataKey="time" stroke="#888" style={{fontSize:'12px'}} />
+                    <YAxis stroke="#888" domain={["auto","auto"]} style={{fontSize:'12px'}}  />
+                   <Line type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2} dot={false} /> 
+                   <Tooltip contentStyle={{ backgroundColor: "#333", border: "none", borderRadius: "5px" }}                    labelStyle={{ color: "#fff", fontSize: "12px" }}
+                    itemStyle={{ color: "#fff", fontSize: "12px" }}
+                   />
+                </LineChart>
+              </ResponsiveContainer>
 
           </div>
           </>

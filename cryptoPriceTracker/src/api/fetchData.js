@@ -17,3 +17,13 @@ export async function fetchCryptoDetails(id) {
     console.error('Error fetching crypto details:', error);
   }
 }
+export async function fetchCryptoPriceHistory(id) {
+  try {
+    const response = await axios.get(`${baseURL}/coins/${id}/market_chart?vs_currency=usd&days=7`);
+    return response.data;
+    
+    
+  } catch (error) {
+    console.error('Error fetching crypto price history:', error);
+  }
+}
