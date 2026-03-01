@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchNews } from "../api/fetchData";
-import { Link } from "react-router-dom";
-import { Header } from "../components/Header";
+
 
 export function NewsPage() {
   const [articles, setArticles] = useState([]);
@@ -24,7 +23,6 @@ export function NewsPage() {
   return (
     <div className="p-4 bg-black min-h-screen text-white overflow-auto">
       <div className="w-[80%] mx-auto">
-        <Header />
         <h3 className="text-4xl text-slate-300 font-bold mt-2 text-center">
           Crypto News
         </h3>

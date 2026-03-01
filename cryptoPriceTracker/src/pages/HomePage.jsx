@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
 import { HomePageCards } from '../components/HomePageCards';
-import { Header } from '../components/Header';
 export function HomePage() {
   return (
     <div className="bg-[url('/bg2.jpg')] bg-cover bg-no-repeat background text-white min-h-screen overflow-auto">
       <div className='flex flex-col min-h-screen items-center relative inset-0 bg-linear-to-b from-black to-black/50'>
-        <Header />
       <div className='flex flex-col items-center justify-center   gap-4 '>
         <h1 className='sm:text-5xl text-2xl font-bold text-center mt-20'>Track Your Favorite Cryptocurrencies in Real-Time</h1>
         <p className='sm:text-xl  text-center mt-4'>Stay updated with the latest market trends and news in the crypto world.</p>

@@ -1,5 +1,5 @@
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Header } from "../components/Header";
+import {  useParams, useNavigate } from "react-router-dom";
+
 import { useState, useEffect } from "react";
 import { fetchCryptoDetails } from "../api/fetchData";
 import { fetchCryptoPriceHistory } from "../api/fetchData";
@@ -54,7 +54,6 @@ export function CryptoDetailsPage() {
   return (
     <div className=" bg-black min-h-screen text-white overflow-hidden">
       <div className="sm:w-[80%] mx-auto">
-        <Header />
       {isLoading ? (
           <div className="mt-10 flex flex-col gap-3 justify-center items-center h-32">
             <div className="w-12 h-12  border-4 border-gray-500 border-t-transparent rounded-full animate-spin "></div>

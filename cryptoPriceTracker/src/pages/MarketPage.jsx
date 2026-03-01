@@ -3,7 +3,6 @@ import { fetchCryptoData } from "../api/fetchData";
 import { CryptoCard } from "../components/CryptoCard"; 
 import { Pagination } from "../components/Pagination";
 import { Link } from "react-router-dom";
-import { Header } from "../components/Header";
 export function MarketPage() {
   const[cryptoData,setCryptoData] = useState([]);
   const [filterdData,setFilterdData] = useState([]);
@@ -59,12 +58,15 @@ export function MarketPage() {
   return (
     <div className="p-4 bg-black min-h-screen text-white overflow-auto">
       <div className="w-[80%] mx-auto">
-        <Header>
-          <div className="flex gap-2 items-center justify-center sm:w-1/2 border border-stone-700 bg-neutral-950 rounded-xl mt-3 align-middle">
-            <input className="sm:p-3 p-2 rounded-xl   bg-neutral-950 w-[90%] focus:outline-0 text-white"  type="text" placeholder="Search Crypto..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            <img src="../search.png" alt="Search Icon" className="w-5 h-5 mr-2" />
-          </div>
-        </Header>
+        <header className="flex flex-col sm:flex-row mx-auto items-center justify-between  p-4">
+         <Link to="/"><span className='text-3xl font-bold text-yellow-500 font-["Dancing_Script"] '>CryptoTracker</span></Link>
+        <div className="flex gap-2 items-center justify-center sm:w-1/2 border border-stone-700 bg-neutral-950 rounded-xl mt-3 align-middle">
+          <input className="sm:p-3 p-2 rounded-xl   bg-neutral-950 w-[90%] focus:outline-0 text-white"  type="text" placeholder="Search Crypto..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+          <img src="../search.png" alt="Search Icon" className="w-5 h-5 mr-2" />
+         
+        </div>
+         
+      </header>
         <h3 className="text-4xl text-slate-300 font-bold mt-2 text-center">Market Overview</h3>
         <p className="text-lg text-slate-300 text-center mb-3">Top crypto tokens trending today</p>
         <div className="ml-10 mb-3 bg-neutral-950 w-50 p-2 rounded-lg flex items-center gap-2">
