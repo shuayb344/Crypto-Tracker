@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchNews } from "../api/fetchData";
 import { Link } from "react-router-dom";
+import { Header } from "../components/Header";
 
 export function NewsPage() {
   const [articles, setArticles] = useState([]);
@@ -23,21 +24,7 @@ export function NewsPage() {
   return (
     <div className="p-4 bg-black min-h-screen text-white overflow-auto">
       <div className="w-[80%] mx-auto">
-        <header className="flex flex-col sm:flex-row mx-auto items-center justify-between  p-4">
-          <Link to="/">
-            <span className='text-3xl font-bold text-yellow-500 font-["Dancing_Script"] '>
-              CryptoTracker
-            </span>
-          </Link>
-          <div className='text-xl flex gap-3 p-4 '>
-            <Link to="/market">
-              <span className='text-slate-200 hover:text-yellow-300'>Market</span>
-            </Link>
-            <Link to="/news">
-              <span className='text-slate-200 hover:text-yellow-300'>News</span>
-            </Link>
-          </div>
-        </header>
+        <Header />
         <h3 className="text-4xl text-slate-300 font-bold mt-2 text-center">
           Crypto News
         </h3>

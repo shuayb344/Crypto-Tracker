@@ -1,4 +1,5 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { Header } from "../components/Header";
 import { useState, useEffect } from "react";
 import { fetchCryptoDetails } from "../api/fetchData";
 import { fetchCryptoPriceHistory } from "../api/fetchData";
@@ -53,13 +54,7 @@ export function CryptoDetailsPage() {
   return (
     <div className=" bg-black min-h-screen text-white overflow-hidden">
       <div className="sm:w-[80%] mx-auto">
-        <header className="flex items-center flex-wrap  justify-between  p-4 ">
-        <Link to="/"><span className='text-3xl font-bold text-yellow-500 font-["Dancing_Script"] '>CryptoTracker</span></Link>
-        <div className='text-xl flex gap-3 p-4 '>
-          <Link  to="/market"><span className='text-slate-200 hover:text-yellow-300'>Market</span></Link>
-          <Link to="/news"><span className='text-slate-200 hover:text-yellow-300'>News</span></Link>
-        </div>  
-      </header>
+        <Header />
       {isLoading ? (
           <div className="mt-10 flex flex-col gap-3 justify-center items-center h-32">
             <div className="w-12 h-12  border-4 border-gray-500 border-t-transparent rounded-full animate-spin "></div>
