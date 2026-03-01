@@ -51,7 +51,7 @@ export function CryptoDetailsPage() {
     }, [chartData]);
 
   return (
-    <div className=" bg-black min-h-screen text-white overflow-auto">
+    <div className=" bg-black min-h-screen text-white overflow-hidden">
       <div className="sm:w-[80%] mx-auto">
         <header className="flex items-center flex-wrap  justify-between  p-4 ">
         <Link to="/"><span className='text-3xl font-bold text-yellow-500 font-["Dancing_Script"] '>CryptoTracker</span></Link>
@@ -68,6 +68,7 @@ export function CryptoDetailsPage() {
         ) : data && data.id ? (<>
           <div className="p-6 bg-neutral-950 rounded-lg mt-4">
             <div className="flex flex-col sm:flex-row gap-6 flex-wrap justify-between items-center">
+              <div className="flex sm:flex-row flex-col gap-6 items-center">
                 <img src={data.image?.large } alt={data.name} />
                 <div>
                   <p className="text-lg mb-2">Rank: #{data.market_cap_rank}</p>
@@ -83,6 +84,8 @@ export function CryptoDetailsPage() {
               {data.market_data?.price_change_percentage_24h?.toFixed(2)}%
             </p>
                 </div>
+              </div>
+                
                 <div className="flex sm:flex-col flex-row gap-4 mt-6 sm:mt-0">
                   <div>
                   <h3 className="sm:text-3xl text-2xl  font-bold mb-2">Market Cap </h3>
