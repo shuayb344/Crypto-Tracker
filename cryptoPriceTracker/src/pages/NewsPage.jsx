@@ -58,7 +58,7 @@ export function NewsPage() {
                 className="bg-neutral-950 rounded-lg p-4 mb-4 flex flex-col sm:flex-row gap-4"
               >
                 {item.imageurl && (
-                  <div className="w-full sm:w-48 max-w-[12rem] overflow-hidden rounded aspect-video sm:aspect-auto">
+                  <div className="w-full sm:w-48 sm:max-w-[12rem] overflow-hidden rounded aspect-video sm:aspect-auto">
                     <img
                       src={item.imageurl}
                       alt={item.title}
@@ -75,16 +75,16 @@ export function NewsPage() {
                   >
                     {item.title}
                   </a>
-                  <p className="text-sm text-slate-400 mt-2">
+                  {item.body && (
+                    <p className="mt-2 text-slate-200 line-clamp-3 lg:line-clamp-2">
+                      {item.body.replace(/<[^>]*>/g, "").slice(0, 150)}...
+                    </p>
+                  )}
+                  <p className="text-sm text-slate-400 mt-3">
                     {item.published_on
                       ? new Date(item.published_on * 1000).toLocaleDateString()
                       : ""}
                   </p>
-                  {item.body && (
-                    <p className="mt-2 text-slate-200 line-clamp-3">
-                      {item.body.replace(/<[^>]*>/g, "").slice(0, 150)}...
-                    </p>
-                  )}
                 </div>
               </div>
             ))}
