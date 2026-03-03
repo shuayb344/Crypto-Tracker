@@ -3,14 +3,19 @@ import { fetchCryptoData } from "../api/fetchData";
 import { CryptoCard } from "../components/CryptoCard"; 
 import { Pagination } from "../components/Pagination";
 import { Link } from "react-router-dom";
+import usePagination from "../hooks/usePagination";
 export function MarketPage() {
   const[cryptoData,setCryptoData] = useState([]);
   const [filterdData,setFilterdData] = useState([]);
   const [loading,setLoading] = useState(true);
   const [sortBy,setSortBy] = useState("market_cap_rank");
   const [searchTerm,setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20; 
+
+  const { currentPage, setCurrentPage, totalPages, currentPageItems } = usePagination(
+    filterdData,
+    itemsPerPage
+  );
 
 
    const fetchData = async () => {
@@ -30,7 +35,7 @@ export function MarketPage() {
   useEffect(() => {
     sortData(cryptoData, sortBy);
   }, [sortBy,cryptoData, searchTerm]);
-   
+
   const sortData = (data, sortBy) => {
     const sortedData = data.filter((crypto) =>
       crypto.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -86,24 +91,16 @@ export function MarketPage() {
       <p>Loading Crypto ... </p>
     </div>):(<div>
       
-      {(() => {
-        const totalPages = Math.ceil(filterdData.length / itemsPerPage) || 1;
-        const indexOfLastItem = currentPage * itemsPerPage;
-        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        const currentItems = filterdData.slice(indexOfFirstItem, indexOfLastItem);
-        return (
-          <>
-            {currentItems.map((crypto) => (
-              <CryptoCard key={crypto.id} crypto={crypto} />
-            ))}
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        );
-      })()}
+      {
+        currentPageItems.map((crypto) => (
+          <CryptoCard key={crypto.id} crypto={crypto} />
+        ))
+      }
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
       </div>)}
     </div>    
   );
