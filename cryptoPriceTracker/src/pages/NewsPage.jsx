@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchNews } from "../api/fetchData";
+import usePagination from "../hooks/usePagination";
+import { Pagination } from "../components/Pagination";
 
 
 export function NewsPage() {
@@ -20,6 +22,11 @@ export function NewsPage() {
     load();
   }, []);
 
+  const { currentPage, setCurrentPage, totalPages, currentPageItems } = usePagination(
+    articles,
+    6
+  );
+
   return (
     <div className="p-4 bg-black min-h-screen text-white overflow-auto">
       <div className="w-[80%] mx-auto">
@@ -37,7 +44,7 @@ export function NewsPage() {
           </div>
         ) : (
           <div className="flex flex-col">
-            {articles.map((item) => (
+            {currentPageItems.map((item) => (
               <div
                 key={item.id || item.guid}
                 className="bg-neutral-950 rounded-lg p-4 mb-4 flex flex-col sm:flex-row gap-4"
@@ -73,6 +80,11 @@ export function NewsPage() {
                 </div>
               </div>
             ))}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
         )}
       </div>
