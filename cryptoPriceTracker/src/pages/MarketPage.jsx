@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCryptoData } from "../api/fetchData";
+import { useCryptoMarket } from "../hooks/useCryptoQueries";
 import { CryptoCard } from "../components/CryptoCard"; 
 import { Pagination } from "../components/Pagination";
 import { Link } from "react-router-dom";
@@ -10,10 +9,7 @@ export function MarketPage() {
     data: cryptoData = [],
     isLoading,
     isError,
-  } = useQuery({
-    queryKey: ["cryptoMarket"],
-    queryFn: fetchCryptoData,
-  });
+  } = useCryptoMarket();
 
   const [sortBy,setSortBy] = useState("market_cap_rank");
   const [searchTerm,setSearchTerm] = useState("");

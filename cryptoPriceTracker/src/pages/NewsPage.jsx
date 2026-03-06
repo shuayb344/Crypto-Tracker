@@ -1,18 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchNews } from "../api/fetchData";
+import { useNewsQuery } from "../hooks/useCryptoQueries";
 import usePagination from "../hooks/usePagination";
 import { Pagination } from "../components/Pagination";
 
 
 export function NewsPage() {
-  const {
-    data: articles = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["news"],
-    queryFn: fetchNews,
-  });
+  const { data: articles = [], isLoading, isError } = useNewsQuery();
 
   const { currentPage, setCurrentPage, totalPages, currentPageItems } =
     usePagination(articles, 6);

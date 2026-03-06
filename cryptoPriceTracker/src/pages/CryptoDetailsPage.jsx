@@ -1,7 +1,8 @@
 import {  useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCryptoDetails } from "../api/fetchData";
-import { fetchCryptoPriceHistory } from "../api/fetchData";
+import {
+  useCryptoDetailsQuery,
+  useCryptoPriceHistoryQuery,
+} from "../hooks/useCryptoQueries";
 import { formatMoney } from "../utils/FormatMoney";
 import { formatMarketCap } from "../utils/FormatMoney";
 import {CartesianGrid, LineChart, ResponsiveContainer,XAxis,YAxis,Line, Tooltip} from "recharts"
@@ -12,19 +13,13 @@ export function CryptoDetailsPage() {
     data,
     isLoading,
     isError,
-  } = useQuery({
-    queryKey: ["cryptoDetails", id],
-    queryFn: () => fetchCryptoDetails(id),
-  });
+  } = useCryptoDetailsQuery(id);
 
   const {
     data: priceHistory,
     isLoading: isPriceHistoryLoading,
     isError: isPriceHistoryError,
-  } = useQuery({
-    queryKey: ["cryptoPriceHistory", id],
-    queryFn: () => fetchCryptoPriceHistory(id),
-  });
+  } = useCryptoPriceHistoryQuery(id);
 
   const chartData =
     priceHistory && Array.isArray(priceHistory.prices)
