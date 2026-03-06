@@ -1,29 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import { fetchCryptoData } from "../api/fetchData";
-import { useState, useEffect } from "react";
 import { formatMoney } from "../utils/FormatMoney";
 import { Link } from "react-router-dom";
 
 export function HomePageCards() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetchCryptoData()
-      .then((res) => {
-        setData(res || []);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching data:", err);
-        setIsLoading(false);
-      });
-  }, []);
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["homeCrypto"],
+    queryFn: fetchCryptoData,
+  });
 
   if (isLoading) {
     return <div className="text-white">Loading...</div>;
   }
 
-  if (data.length === 0) {
+  if (isError || data.length === 0) {
     return <div className="text-white">Error loading data</div>;
   }
 

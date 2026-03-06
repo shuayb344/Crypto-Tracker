@@ -1,31 +1,21 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { fetchNews } from "../api/fetchData";
 import usePagination from "../hooks/usePagination";
 import { Pagination } from "../components/Pagination";
 
 
 export function NewsPage() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: articles = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["news"],
+    queryFn: fetchNews,
+  });
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const news = await fetchNews();
-        setArticles(news);
-      } catch (err) {
-        console.error("Failed to load news", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
-
-  const { currentPage, setCurrentPage, totalPages, currentPageItems } = usePagination(
-    articles,
-    6
-  );
+  const { currentPage, setCurrentPage, totalPages, currentPageItems } =
+    usePagination(articles, 6);
 
   return (
     <div className="p-4 bg-black min-h-screen text-white overflow-auto">
@@ -37,11 +27,15 @@ export function NewsPage() {
           Latest headlines from around the crypto world.
         </p>
 
-        {loading ? (
+        {isLoading ? (
           <div className="mt-10 flex flex-col gap-3 justify-center items-center h-32">
             <div className="w-12 h-12  border-4 border-gray-500 border-t-transparent rounded-full animate-spin "></div>
             <p>Loading news...</p>
           </div>
+        ) : isError ? (
+          <p className="mt-10 text-center text-red-400">
+            Failed to load news. Please try again later.
+          </p>
         ) : (
           <div className="flex flex-col">
             {currentPageItems.map((item) => (
@@ -50,7 +44,7 @@ export function NewsPage() {
                 className="bg-neutral-950 rounded-lg p-4 mb-4 flex flex-col sm:flex-row gap-4"
               >
                 {item.imageurl && (
-                  <div className="w-full sm:w-48 sm:max-w-[12rem] overflow-hidden rounded aspect-video sm:aspect-auto">
+                  <div className="w-full sm:w-48 sm:max-w-48 overflow-hidden rounded aspect-video sm:aspect-auto">
                     <img
                       src={item.imageurl}
                       alt={item.title}

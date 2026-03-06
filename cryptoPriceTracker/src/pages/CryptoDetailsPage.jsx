@@ -1,6 +1,5 @@
 import {  useParams, useNavigate } from "react-router-dom";
-
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { fetchCryptoDetails } from "../api/fetchData";
 import { fetchCryptoPriceHistory } from "../api/fetchData";
 import { formatMoney } from "../utils/FormatMoney";
@@ -8,57 +7,56 @@ import { formatMarketCap } from "../utils/FormatMoney";
 import {CartesianGrid, LineChart, ResponsiveContainer,XAxis,YAxis,Line, Tooltip} from "recharts"
 export function CryptoDetailsPage() {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [chartData, setChartData] = useState([]);
   const navigate = useNavigate();
-  
-    useEffect(() => {
-      fetchCryptoDetails(id)
-        .then((res) => {
-          setData(res || []);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching data:", err);
-          setIsLoading(false);
-        });
-    }, [id]);
-    useEffect(() => {
-      fetchCryptoPriceHistory(id)
-        .then((res) => {
-          if (res && Array.isArray(res.prices)) {
-            const formattedData = res.prices.map(([timestamp, price]) => ({
-              time: new Date(timestamp).toLocaleDateString(
-                "en-US",{
-                  month : "short",
-                  day : "numeric"
-                }
-              ),
-              price: Number(price.toFixed(2)),
-            }));
-            setChartData(formattedData);
-          } else {
-            console.error("Unexpected price history format", res);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching price history:", err);
-        });
-    }, [id]);
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["cryptoDetails", id],
+    queryFn: () => fetchCryptoDetails(id),
+  });
 
-    useEffect(() => {
-      console.log("chartData updated:", chartData);
-    }, [chartData]);
+  const {
+    data: priceHistory,
+    isLoading: isPriceHistoryLoading,
+    isError: isPriceHistoryError,
+  } = useQuery({
+    queryKey: ["cryptoPriceHistory", id],
+    queryFn: () => fetchCryptoPriceHistory(id),
+  });
+
+  const chartData =
+    priceHistory && Array.isArray(priceHistory.prices)
+      ? priceHistory.prices.map(([timestamp, price]) => ({
+          time: new Date(timestamp).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          }),
+          price: Number(price.toFixed(2)),
+        }))
+      : [];
 
   return (
     <div className=" bg-black min-h-screen text-white overflow-hidden">
       <div className="sm:w-[80%] mx-auto">
-      {isLoading ? (
+      {isLoading || isPriceHistoryLoading ? (
           <div className="mt-10 flex flex-col gap-3 justify-center items-center h-32">
             <div className="w-12 h-12  border-4 border-gray-500 border-t-transparent rounded-full animate-spin "></div>
             <p>Loading...</p>
           </div>
+        ) : isError || isPriceHistoryError ? (
+          <>
+            <p className="text-center text-3xl ">
+              Unable to load details for {id}
+            </p>
+            <button
+              className="mt-4 mx-auto block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded"
+              onClick={() => navigate("/market")}
+            >
+              Go Back
+            </button>
+          </>
         ) : data && data.id ? (<>
           <div className="p-6 bg-neutral-950 rounded-lg mt-4">
             <div className="flex flex-col sm:flex-row gap-6 flex-wrap justify-between items-center">
