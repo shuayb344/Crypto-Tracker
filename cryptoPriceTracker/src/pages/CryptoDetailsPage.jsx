@@ -1,7 +1,8 @@
 import {  useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
-  useCryptoDetailsQuery,
-  useCryptoPriceHistoryQuery,
+  cryptoDetailsQueryOptions,
+  cryptoPriceHistoryQueryOptions,
 } from "../hooks/useCryptoQueries";
 import { formatMoney } from "../utils/FormatMoney";
 import { formatMarketCap } from "../utils/FormatMoney";
@@ -13,13 +14,13 @@ export function CryptoDetailsPage() {
     data,
     isLoading,
     isError,
-  } = useCryptoDetailsQuery(id);
+  } = useQuery(cryptoDetailsQueryOptions(id));
 
   const {
     data: priceHistory,
     isLoading: isPriceHistoryLoading,
     isError: isPriceHistoryError,
-  } = useCryptoPriceHistoryQuery(id);
+  } = useQuery(cryptoPriceHistoryQueryOptions(id));
 
   const chartData =
     priceHistory && Array.isArray(priceHistory.prices)

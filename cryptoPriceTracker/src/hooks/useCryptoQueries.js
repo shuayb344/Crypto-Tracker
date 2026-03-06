@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import {
   fetchCryptoData,
   fetchCryptoDetails,
@@ -6,33 +6,30 @@ import {
   fetchNews,
 } from "../api/fetchData";
 
-export function useCryptoMarket() {
-  return useQuery({
+export const cryptoMarketQueryOptions = () =>
+  queryOptions({
     queryKey: ["cryptoMarket"],
     queryFn: fetchCryptoData,
   });
-}
 
-export function useCryptoDetailsQuery(id) {
-  return useQuery({
+export const cryptoDetailsQueryOptions = (id) =>
+  queryOptions({
     queryKey: ["cryptoDetails", id],
     queryFn: () => fetchCryptoDetails(id),
     enabled: !!id,
   });
-}
 
-export function useCryptoPriceHistoryQuery(id) {
-  return useQuery({
+export const cryptoPriceHistoryQueryOptions = (id) =>
+  queryOptions({
     queryKey: ["cryptoPriceHistory", id],
     queryFn: () => fetchCryptoPriceHistory(id),
     enabled: !!id,
   });
-}
 
-export function useNewsQuery() {
-  return useQuery({
+export const newsQueryOptions = () =>
+  queryOptions({
     queryKey: ["news"],
     queryFn: fetchNews,
   });
-}
+
 

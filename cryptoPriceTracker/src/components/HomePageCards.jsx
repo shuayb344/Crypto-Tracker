@@ -1,4 +1,5 @@
-import { useCryptoMarket } from "../hooks/useCryptoQueries";
+import { useQuery } from "@tanstack/react-query";
+import { cryptoMarketQueryOptions } from "../hooks/useCryptoQueries";
 import { formatMoney } from "../utils/FormatMoney";
 import { Link } from "react-router-dom";
 
@@ -7,7 +8,7 @@ export function HomePageCards() {
     data = [],
     isLoading,
     isError,
-  } = useCryptoMarket();
+  } = useQuery(cryptoMarketQueryOptions());
 
   if (isLoading) {
     return <div className="text-white">Loading...</div>;
