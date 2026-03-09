@@ -13,10 +13,10 @@ export function CryptoCard({ crypto }) {
         <p className="text-lg font-semibold">{formatMoney(crypto.current_price)}</p>
         <p
           className={`text-sm ${
-            crypto.price_change_percentage_24h >= 0 ? "text-green-500" : "text-red-500"
+            (crypto.price_change_percentage_24h || 0) >= 0 ? "text-green-500" : "text-red-500"
           }`}
         >
-          {crypto.price_change_percentage_24h.toFixed(2)}%
+          {(crypto.price_change_percentage_24h || 0).toFixed(2)}%
         </p>
       </div>
     </div>
