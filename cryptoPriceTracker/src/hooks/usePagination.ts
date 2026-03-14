@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 
-export default function usePagination(items = [], initialPageSize = 10) {
-  const [rawPage, setRawPage] = useState(1);
-  const [pageSize, setPageSize] = useState(initialPageSize);
+export default function usePagination(items: any[] = [], initialPageSize: number = 10) {
+  const [rawPage, setRawPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(initialPageSize);
 
   const totalPages = useMemo(() => {
     const total = Math.ceil((items?.length || 0) / pageSize);

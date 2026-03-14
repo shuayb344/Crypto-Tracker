@@ -12,14 +12,14 @@ export const cryptoMarketQueryOptions = () =>
     queryFn: fetchCryptoData,
   });
 
-export const cryptoDetailsQueryOptions = (id) =>
+export const cryptoDetailsQueryOptions = (id: string) =>
   queryOptions({
     queryKey: ["cryptoDetails", id],
     queryFn: () => fetchCryptoDetails(id),
     enabled: !!id,
   });
 
-export const cryptoPriceHistoryQueryOptions = (id) =>
+export const cryptoPriceHistoryQueryOptions = (id: string) =>
   queryOptions({
     queryKey: ["cryptoPriceHistory", id],
     queryFn: () => fetchCryptoPriceHistory(id),
