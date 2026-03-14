@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
 import { formatMoney } from "../utils/FormatMoney";
-export function CryptoCard({ crypto }) {
+
+interface CryptoProps {
+  crypto: {
+    id: string;
+    name: string;
+    symbol: string;
+    image: string;
+    current_price: number;
+    market_cap_rank: number;
+    price_change_percentage_24h?: number;
+  };
+}
+
+export function CryptoCard({ crypto }: CryptoProps) {
   return (<Link  to={`/coins/${crypto.id}`}>
     <div className="bg-neutral-950 mx-auto p-4 hover:bg-neutral-900 rounded-lg shadow-md flex items-center gap-4 mb-3 sm:w-[70%]">
       <span className="">#{crypto.market_cap_rank}</span>

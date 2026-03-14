@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
+import React from 'react';
 
-export function Header({ children }) {
+export function Header({ children }: { children?: React.ReactNode }) {
   return (
     <header className="flex flex-col sm:flex-row mx-auto items-center justify-between p-4 sm:w-[80%]">
       <Link to="/">

@@ -1,4 +1,10 @@
-export function Pagination({ currentPage, totalPages, onPageChange }) {
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (updater: (prev: number) => number) => void;
+}
+
+export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const prevDisabled = currentPage === 1;

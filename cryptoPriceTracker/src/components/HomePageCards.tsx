@@ -20,8 +20,8 @@ export function HomePageCards() {
 
   return (
     <div className="flex flex-col sm:flex-row gap-3">
-      {data.slice(0, 4).map((crypto) => (
-        <Link to={`/coins/${crypto.id}`}><div className="bg-neutral-950 mx-auto p-6 hover:bg-neutral-950 rounded-lg shadow-md flex flex-row sm:flex-col justify-between items-center w-full gap-4 mb-3 ">
+      {data.slice(0, 4).map((crypto: any) => (
+        <Link key={crypto.id} to={`/coins/${crypto.id}`}><div className="bg-neutral-950 mx-auto p-6 hover:bg-neutral-950 rounded-lg shadow-md flex flex-row sm:flex-col justify-between items-center w-full gap-4 mb-3 ">
           <div className="flex sm:flex-col flex-row items-center gap-2">
           <span className="">#{crypto.market_cap_rank}</span>
           <img className="w-12  h-12 sm:w-24 sm:h-24" src={crypto.image} alt={crypto.name} />
