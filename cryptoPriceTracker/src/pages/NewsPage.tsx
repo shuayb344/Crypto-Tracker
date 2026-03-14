@@ -35,7 +35,7 @@ export function NewsPage() {
           </p>
         ) : (
           <div className="flex flex-col">
-            {currentPageItems.map((item) => (
+            {currentPageItems.map((item: any) => (
               <div
                 key={item.id || item.guid}
                 className="bg-neutral-950 rounded-lg p-4 mb-4 flex flex-col sm:flex-row gap-4"

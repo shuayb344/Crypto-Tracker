@@ -14,17 +14,17 @@ export function CryptoDetailsPage() {
     data,
     isLoading,
     isError,
-  } = useQuery(cryptoDetailsQueryOptions(id));
+  } = useQuery(cryptoDetailsQueryOptions(id as string));
 
   const {
     data: priceHistory,
     isLoading: isPriceHistoryLoading,
     isError: isPriceHistoryError,
-  } = useQuery(cryptoPriceHistoryQueryOptions(id));
+  } = useQuery(cryptoPriceHistoryQueryOptions(id as string));
 
   const chartData =
     priceHistory && Array.isArray(priceHistory.prices)
-      ? priceHistory.prices.map(([timestamp, price]) => ({
+      ? priceHistory.prices.map(([timestamp, price]: [number, number]) => ({
           time: new Date(timestamp).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",

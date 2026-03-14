@@ -17,10 +17,10 @@ export function MarketPage() {
   const itemsPerPage = 20; 
 
   const sortedAndFilteredData = useMemo(() => {
-    const filtered = (cryptoData || []).filter((crypto) =>
+    const filtered = (cryptoData || []).filter((crypto: any) =>
       crypto.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    filtered.sort((a, b) => {
+    filtered.sort((a: any, b: any) => {
       switch (sortBy) {
         case "market_cap_rank":
           return a.market_cap_rank - b.market_cap_rank;
@@ -83,7 +83,7 @@ export function MarketPage() {
         <div>
       
       {
-        currentPageItems.map((crypto) => (
+        currentPageItems.map((crypto: any) => (
           <CryptoCard key={crypto.id} crypto={crypto} />
         ))
       }
